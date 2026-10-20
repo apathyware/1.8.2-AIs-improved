@@ -1,0 +1,18 @@
+﻿  NetDriver.cpp
+  BattleRoyaleGamePhaseLogic.cpp
+  BuildingSMActor.cpp
+  FortGameMode.cpp
+  FortInventory.cpp
+  FortLootPackage.cpp
+  FortPlayerControllerAthena.cpp
+  BotAI.cpp
+  GUI.cpp
+  Misc.cpp
+  NPCs.cpp
+  PlaceDump.cpp
+  dllmain.cpp
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 18121 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Four_E_Zero_H.vcxproj -> C:\Users\playe\Desktop\1.8.2-AIs-main\Source Code\x64\Release\1.8.2 AIs GS.dll

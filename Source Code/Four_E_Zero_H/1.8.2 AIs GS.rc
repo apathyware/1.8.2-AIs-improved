@@ -1,0 +1,31 @@
+// Resource file for 1.8.2 AIs GS.dll
+#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION     4,0
+    PRODUCTVERSION  4,0
+    FILEFLAGSMASK   0x3fL
+    FILEFLAGS       0x0L
+    FILEOS          VOS_NT_WINDOWS32
+    FILETYPE        VFT_DLL
+    FILESUBTYPE     0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName",      "4e0h\0"
+            VALUE "FileDescription",  "An ogfn gameserver for v1.8.2 with player AIs using erbium as a base. \0"
+            VALUE "FileVersion",      "4.0\0"
+            VALUE "InternalName",     "1.8.2 AIs GS\0"
+            VALUE "LegalCopyright",   "4e0h - github.com/4e0h/1.8.2-AIs\0"
+            VALUE "OriginalFilename", "1.8.2 AIs GS\0"
+            VALUE "ProductName",      "1.8.2 AIs GS\0"
+            VALUE "ProductVersion",   "4.0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

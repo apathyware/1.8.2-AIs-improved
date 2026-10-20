@@ -1,0 +1,94 @@
+#pragma once
+#include "../../pch.h"
+#include "FortInventory.h"
+#include "FortVehicleSeatWeaponComponent.h"
+
+class AFortPhysicsPawn : public AActor
+{
+public:
+    UCLASS_COMMON_MEMBERS(AFortPhysicsPawn);
+
+    static void ServerMove(UObject*, FFrame&);
+
+    InitHooks;
+};
+
+class UFortVehicleSeatComponent : public UActorComponent
+{
+public:
+    UCLASS_COMMON_MEMBERS(UFortVehicleSeatComponent);
+
+    DEFINE_PROP(PlayerSlots, TArray<FAthenaCarPlayerSlot>);
+
+    int32 FindSeatIndex(AFortPlayerPawnAthena* Pawn)
+    {
+        for (int i = 0; i < PlayerSlots.Num(); i++)
+        {
+            auto& PlayerSlot = PlayerSlots.Get(i, FAthenaCarPlayerSlot::Size());
+
+            if (PlayerSlot.Player == Pawn)
+                return i;
+        }
+
+        return -1;
+    }
+};
+
+class AFortAthenaVehicle : public AActor
+{
+public:
+    UCLASS_COMMON_MEMBERS(AFortAthenaVehicle);
+};
+
+class AFortCharacterVehicle : public AActor
+{
+public:
+    UCLASS_COMMON_MEMBERS(AFortCharacterVehicle);
+
+    DEFINE_PROP(OverrideAbilitySystemComponent, UAbilitySystemComponent*);
+};
+
+struct FNetTowhookAttachState
+{
+public:
+    USCRIPTSTRUCT_COMMON_MEMBERS(FNetTowhookAttachState);
+
+    DEFINE_STRUCT_PROP(Component, UActorComponent*);
+    DEFINE_STRUCT_PROP(LocalLocation, FVector);
+    DEFINE_STRUCT_PROP(LocalNormal, FVector);
+};
+
+class AFortOctopusVehicle : public AFortPhysicsPawn
+{
+public:
+    UCLASS_COMMON_MEMBERS(AFortOctopusVehicle);
+
+    DEFINE_PROP(NetTowhookAimDir, FVector);
+    DEFINE_PROP(ReplicatedAttachState, FNetTowhookAttachState);
+
+    DEFINE_FUNC(OnRep_NetTowhookAimDir, void);
+    DEFINE_FUNC(OnRep_ReplicatedAttachState, void);
+    DEFINE_FUNC(BreakTowhook, void);
+
+    static void ServerUpdateTowhook(UObject*, FFrame&);
+};
+
+class AFortSpaghettiVehicle : public AFortPhysicsPawn
+{
+public:
+    UCLASS_COMMON_MEMBERS(AFortSpaghettiVehicle);
+
+    DEFINE_PROP(NetTowhookAimDir, FVector);
+
+    DEFINE_FUNC(OnRep_NetTowhookAimDir, void);
+
+    static void ServerUpdateTowhook(UObject*, FFrame&);
+};
+
+class AFortDagwoodVehicle : public AFortAthenaVehicle
+{
+public:
+    UCLASS_COMMON_MEMBERS(AFortDagwoodVehicle);
+
+    DEFINE_FUNC(SetFuel, float);
+};

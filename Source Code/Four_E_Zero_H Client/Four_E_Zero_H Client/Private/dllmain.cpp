@@ -1,0 +1,107 @@
+#include "pch.h"
+#include "../../../Four_E_Zero_H/Four_E_Zero_H/Public/Configuration.h"
+#include "../Public/Client.h"
+#include <thread>
+
+void ForceIris(uintptr_t IrisBool)
+{
+    Memcury::PE::Address add{ nullptr };
+
+    const auto sizeOfImage = Memcury::PE::GetNTHeaders()->OptionalHeader.SizeOfImage;
+    const auto scanBytes = reinterpret_cast<std::uint8_t*>(Memcury::PE::GetModuleBase());
+
+    for (auto i = 0ul; i < sizeOfImage - 5; ++i)
+    {
+        if (scanBytes[i] == 0x83 || scanBytes[i] == 0x39)
+        {
+            if (Memcury::PE::Address(&scanBytes[i]).RelativeOffset(2, scanBytes[i] == 0x83).GetAs<void*>() == (void*)IrisBool)
+            {
+                add = Memcury::PE::Address(&scanBytes[i]);
+
+                Hooking::Patch<uint32_t>(__int64(&scanBytes[i]) + 2, 0x0);
+            }
+        }
+    }
+}
+
+void Main()
+{
+
+
+    SDK::Init();
+
+    {
+        const double expected = 1.82;
+        const double got = VersionInfo.FortniteVersion;
+        if (got < 0.01 || (got < expected - 0.005) || (got > expected + 0.005))
+            ExitProcess(0);
+    }
+
+    if (wcscmp(FConfiguration::Playlist, L"/DurianPlaylist/Playlist/Playlist_Durian.Playlist_Durian") == 0)
+        FConfiguration::bEnableIris = false;
+
+    if (VersionInfo.EngineVersion >= 5.0)
+    {
+        auto RuntimeOptions = DefaultObjImpl("FortRuntimeOptions");
+
+        if (RuntimeOptions)
+        {
+            auto bWaitForServerToBeInitializedBeforeTravelingFeatureEnabledOffset = RuntimeOptions->GetOffset("bWaitForServerToBeInitializedBeforeTravelingFeatureEnabled");
+
+            if (bWaitForServerToBeInitializedBeforeTravelingFeatureEnabledOffset != -1)
+                *(bool*)(__int64(RuntimeOptions) + bWaitForServerToBeInitializedBeforeTravelingFeatureEnabledOffset) = false;
+        }
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"log LogFortUIDirector None"), nullptr);
+    }
+    if (VersionInfo.EngineVersion >= 5.1)
+    {
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"net.AllowEncryption 0"), nullptr);
+    }
+    if (VersionInfo.EngineVersion >= 5.3 && FConfiguration::bEnableIris)
+    {
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"log LogIris None"), nullptr);
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"log LogIrisRpc None"), nullptr);
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"log LogIrisBridge None"), nullptr);
+
+        auto IrisBool = FindCVar<uint32_t>(L"net.Iris.UseIrisReplication");
+
+        if (IrisBool)
+            *IrisBool = true;
+
+        ForceIris(__int64(IrisBool));
+    }
+    if (VersionInfo.EngineVersion >= 5.4)
+    {
+        auto SprintCVar = FindCVar<uint32_t>(L"Fort.MME.TacticalSprint");
+        auto HurdleCVar = FindCVar<uint32_t>(L"Fort.MME.Hurdle");
+        auto SlideCVar = FindCVar<uint32_t>(L"Fort.MME.Sliding");
+        auto MantleCVar = FindCVar<uint32_t>(L"Fort.MME.Clambering");
+
+        if (SlideCVar)
+            *SlideCVar = false;
+
+        if (MantleCVar)
+            *MantleCVar = false;
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"Fort.MME.TacticalSprint 0"), nullptr);
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"Fort.MME.Hurdle 0"), nullptr);
+        UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), FString(L"Fort.MME.Sliding 0"), nullptr);
+    }
+
+    Client::Init();
+
+    return;
+}
+
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        std::thread(Main).detach();
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
+}

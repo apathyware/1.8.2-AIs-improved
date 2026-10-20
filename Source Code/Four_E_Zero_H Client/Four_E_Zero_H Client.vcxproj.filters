@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Four_E_Zero_H Client">
+      <UniqueIdentifier>{2a95123d-8afc-464a-a144-bc5e1b4bd259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Four_E_Zero_H Client\Public">
+      <UniqueIdentifier>{12ccf323-ec61-43fd-9ca5-b42017765603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Four_E_Zero_H Client\Private">
+      <UniqueIdentifier>{bf8a8013-2503-4be0-ab66-20ff33e3ec13}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Four_E_Zero_H Client\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Four_E_Zero_H Client\Public\FortPlaylistAthena.h">
+      <Filter>Four_E_Zero_H Client\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Four_E_Zero_H Client\Public\FortPlayerControllerAthena.h">
+      <Filter>Four_E_Zero_H Client\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Four_E_Zero_H Client\Public\Client.h">
+      <Filter>Four_E_Zero_H Client\Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Four_E_Zero_H Client\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Four_E_Zero_H Client\Private\dllmain.cpp">
+      <Filter>Four_E_Zero_H Client\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Four_E_Zero_H Client\Private\Client.cpp">
+      <Filter>Four_E_Zero_H Client\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Four_E_Zero_H Client\Private\hde64.cpp">
+      <Filter>Four_E_Zero_H Client\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Four_E_Zero_H Client\Private\Hooking.cpp">
+      <Filter>Four_E_Zero_H Client\Private</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="14.60-Player-AIs-Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
