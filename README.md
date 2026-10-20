@@ -1,5 +1,5 @@
 ## A gameserver for v1.8.2 with player AIs
-### If you would like to skid pls credit me, ploosh, pongo, and ralzify 4e0h<3
+### If you would like to skid pls credit 4e0h, apathy, ploosh, pongo, and ralzify<3
  
 <details>
   <summary>Quick Commands</summary>
